@@ -1,1 +1,123 @@
-<p>666<p>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>我的网站</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    header {
+      background: #f5f7fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    .doc {
+      background: white;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .tags {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .tag {
+      background: #e1f0ff;
+      color: #0366d6;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+    .search-box {
+      margin: 20px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>欢迎来到我的文档站</h1>
+    <p>这里收集了我所有的学习笔记和文档</p>
+    <input type="text" class="search-box" placeholder="搜索文档...">
+  </header>
+  
+  <div id="content">
+    <!-- 文档将在这里显示 -->
+    <p>正在加载文档...</p>
+  </div>
+  
+  <script>
+    // 文档数据 - 类似数据库功能
+    const documents = [
+      {
+        id: 1,
+        title: "GitHub 使用入门",
+        content: "GitHub 是全球最大的代码托管平台...",
+        tags: ["github", "教程", "新手"]
+      },
+      {
+        id: 2,
+        title: "HTML 基础教程",
+        content: "HTML 是网页的基础构建语言...",
+        tags: ["html", "网页开发", "基础"]
+      },
+      {
+        id: 3,
+        title: "CSS 样式技巧",
+        content: "掌握这些 CSS 技巧让你的网站更美观...",
+        tags: ["css", "设计", "前端"]
+      }
+    ];
+    
+    // 显示所有文档
+    function displayDocuments(docs) {
+      const container = document.getElementById('content');
+      container.innerHTML = '';
+      
+      docs.forEach(doc => {
+        const docElement = document.createElement('div');
+        docElement.className = 'doc';
+        docElement.innerHTML = `
+          <h2>${doc.title}</h2>
+          <div class="tags">
+            ${doc.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+          <p>${doc.content}</p>
+        `;
+        container.appendChild(docElement);
+      });
+    }
+    
+    // 初始显示所有文档
+    displayDocuments(documents);
+    
+    // 搜索功能
+    document.querySelector('.search-box').addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      if (searchTerm === '') {
+        displayDocuments(documents);
+        return;
+      }
+      
+      const filtered = documents.filter(doc => 
+        doc.title.toLowerCase().includes(searchTerm) || 
+        doc.content.toLowerCase().includes(searchTerm) ||
+        doc.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+      );
+      
+      displayDocuments(filtered);
+    });
+  </script>
+</body>
+</html>
